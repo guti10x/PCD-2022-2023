@@ -20,11 +20,18 @@ class Servidor():
 
 		while True:
 			msg = input('\n << SALIR = 1 >> \n')
+
 			if msg == '1':
 				print(" **** Me piro vampiro; cierro socket y mato SERVER con PID = ", os.getpid())
 				self.s.close()
 				sys.exit()
 			else: pass
+
+    # Función que abre el documento de texto(u22060943AI1.txt") y añade, con el metodo append, al final del docuemnto los mensajes enviados              
+	def guardarHistorialChat(self, msg):
+		f=open("u22060943AI1.txt", "a")
+		f.write(msg + "\n")
+		f.close()
 
 	def aceptarC(self):
 		print('\nHilo ACEPTAR con ID =',threading.currentThread().getName(), '\n\tHilo en modo DAEMON = ', threading.currentThread().isDaemon(),'\n\tPertenece al PROCESO con PID', os.getpid(), "\n\tHilos activos TOTALES ", threading.active_count())
@@ -44,7 +51,11 @@ class Servidor():
 				for c in self.clientes:
 					try:
 						data = c.recv(32)
-						if data: self.broadcast(data,c)
+						if data: 
+							self.broadcast(data,c)
+							self.guardarHistorialChat(pickle.loads(data))
+						 	### Se envia el mensaje a los clientes con la función broadcast y se envian los mensajes al fichero de texto con la funcion guardarHistorialChat para almacenarlos en este
+
 					except: pass
 
 	def broadcast(self, msg, cliente):
