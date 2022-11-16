@@ -6,8 +6,9 @@ import os
 
 class Cliente():
 
-	def __init__(self, host=input("Intoduzca la IP del servidor ?  "), port=int(input("Intoduzca el PUERTO del servidor ?  "))):
+	def __init__(self, host=input("Intoduzca la IP del servidor:  "), port=int(input("Intoduzca el PUERTO del servidor:  ")), nickname=input("Introduzca su correo electrónico de la universidad: ")):
 					   #Se ingresa mediante el teclado la dirección ip del servidor y el puerto del servidor como los últimos 5 dígitos del expediente.
+					   #Se ingresa mediante el teclado el correo electrónico de la universidad del cliente como parámatro de la función.
 
 		self.s = socket.socket()
 		self.s.connect((host, int(port)))
@@ -16,7 +17,7 @@ class Cliente():
 
 		while True:
 			msg = input('\nEscriba texto ?   ** Enviar = ENTER   ** Salir Chat = 1 \n')
-			if msg != '1' : self.enviar(msg)
+			if msg != '1' : self.enviar(nickname+" : "+msg)
 			else:
 				print(" **** Me piro vampiro; cierro socket y mato al CLIENTE con PID = ", os.getpid())
 				self.s.close()
