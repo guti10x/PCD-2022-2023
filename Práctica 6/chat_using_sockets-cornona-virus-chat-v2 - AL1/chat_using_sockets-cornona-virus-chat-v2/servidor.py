@@ -6,6 +6,7 @@ import os
 
 class Servidor():
 
+	# Función para crear y blindear el socket con el clinte, crear un hilo para aceptar mensajes y otro para procesar mensajes, crear un array de almacenamiento de clientes conectador y desplegar la opción de salir del programa  
 	def __init__(self, host=socket.gethostname(), port=int(input("Que puerto quiere usar ? "))):
 		self.clientes = []
 		print('\nSu IP actual es : ',socket.gethostbyname(host))
@@ -33,6 +34,7 @@ class Servidor():
 		f.write(msg + "\n")
 		f.close()
 
+	# Función que recibe en el socket a los clientes, que con la función connect() en el lado del cliente, y los acepta la conexión. 
 	def aceptarC(self):
 		print('\nHilo ACEPTAR con ID =',threading.currentThread().getName(), '\n\tHilo en modo DAEMON = ', threading.currentThread().isDaemon(),'\n\tPertenece al PROCESO con PID', os.getpid(), "\n\tHilos activos TOTALES ", threading.active_count())
 		
@@ -44,6 +46,7 @@ class Servidor():
 				self.clientes.append(conn)
 			except: pass
 
+	# Función que recorre la lista de clientes activos para recibir todo lo enviado por los clientes y posteriormente llamar a la funcion broadcast
 	def procesarC(self):
 		print('\nHilo PROCESAR con ID =',threading.currentThread().getName(), '\n\tHilo en modo DAEMON = ', threading.currentThread().isDaemon(),'\n\tPertenece al PROCESO con PID', os.getpid(), "\n\tHilos activos TOTALES ", threading.active_count())
 		while True:
@@ -58,6 +61,7 @@ class Servidor():
 
 					except: pass
 
+	# Función para enviar a todos los clientes conecatdos al servidor el mensaje a excepción del emisor
 	def broadcast(self, msg, cliente):
 		for c in self.clientes:
 			print("Clientes conectados Right now = ", len(self.clientes))

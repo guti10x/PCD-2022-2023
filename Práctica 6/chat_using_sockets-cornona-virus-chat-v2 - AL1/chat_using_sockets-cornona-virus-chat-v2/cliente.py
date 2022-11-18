@@ -5,7 +5,7 @@ import pickle
 import os
 
 class Cliente():
-
+	# Función para crear y conectar el socket, crear un hilo para recibir mensajes y desplegar un menu para selecionar entre salir del programa o mandar el mensaje 
 	def __init__(self, host=input("Intoduzca la IP del servidor:  "), port=int(input("Intoduzca el PUERTO del servidor:  ")), nickname=input("Introduzca su correo electrónico de la universidad: ")):
 					   #Se ingresa mediante el teclado la dirección ip del servidor y el puerto del servidor como los últimos 5 dígitos del expediente.
 					   #Se ingresa mediante el teclado el correo electrónico de la universidad del cliente como parámatro de la función.
@@ -23,6 +23,7 @@ class Cliente():
 				self.s.close()
 				sys.exit()
 
+	# Función que recibe los mensajes y los imprime por pantalla
 	def recibir(self):
 		print('\nHilo RECIBIR con ID =',threading.currentThread().getName(), '\n\tPertenece al PROCESO con PID', os.getpid(), "\n\tHilos activos TOTALES ", threading.active_count())
 		while True:
@@ -31,9 +32,8 @@ class Cliente():
 				if data: print(pickle.loads(data))
 			except: pass
 
+	# Función que envia los mensajes a traves de la red
 	def enviar(self, msg):
 		self.s.send(pickle.dumps(msg))
 
 arrancar = Cliente()
-
-		
