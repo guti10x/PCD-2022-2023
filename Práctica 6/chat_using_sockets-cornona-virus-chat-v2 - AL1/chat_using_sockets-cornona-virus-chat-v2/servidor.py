@@ -7,8 +7,10 @@ import os
 class Servidor():
 
 	def __init__(self, host=socket.gethostname(), port=int(input("Que puerto quiere usar ? "))):
+		
 		self.clientes = []
 		self.nicknamesConectados = []
+
 		print('\nSu IP actual es : ',socket.gethostbyname(host))
 		print('\n\tProceso con PID = ',os.getpid(), '\n\tHilo PRINCIPAL con ID =',threading.currentThread().getName(), '\n\tHilo en modo DAEMON = ', threading.currentThread().isDaemon(), '\n\tTotal Hilos activos en este punto del programa =', threading.active_count())
 		self.s = socket.socket()
