@@ -8,7 +8,9 @@ class Servidor():
 
 	def __init__(self, host=socket.gethostname(), port=int(input("Que puerto quiere usar ? "))):
 		
+		##Lista de clientes conectados
 		self.clientes = []
+        ####Lista de nicknames de clientes conectados
 		self.nicknamesConectados = []
 
 		print('\nSu IP actual es : ',socket.gethostbyname(host))
