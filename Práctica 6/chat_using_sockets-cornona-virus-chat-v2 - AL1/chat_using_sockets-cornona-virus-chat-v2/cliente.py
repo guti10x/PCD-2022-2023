@@ -15,6 +15,8 @@ class Cliente():
 		print('\n\tProceso con PID = ',os.getpid(), '\n\tHilo PRINCIPAL con ID =',threading.currentThread().getName(), '\n\tHilo en modo DAEMON = ', threading.currentThread().isDaemon(),'\n\tTotal Hilos activos en este punto del programa =', threading.active_count())
 		threading.Thread(target=self.recibir, daemon=True).start()
 
+		self.enviar('~',nickname)
+
 		while True:
 			msg = input('\nEscriba texto ?   ** Enviar = ENTER   ** Salir Chat = 1 \n')
 			if msg != '1' : self.enviar(nickname+" : "+msg)
@@ -35,5 +37,3 @@ class Cliente():
 		self.s.send(pickle.dumps(msg))
 
 arrancar = Cliente()
-
-		

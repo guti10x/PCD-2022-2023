@@ -8,6 +8,7 @@ class Servidor():
 
 	def __init__(self, host=socket.gethostname(), port=int(input("Que puerto quiere usar ? "))):
 		self.clientes = []
+		self.nicknamesConectados = []
 		print('\nSu IP actual es : ',socket.gethostbyname(host))
 		print('\n\tProceso con PID = ',os.getpid(), '\n\tHilo PRINCIPAL con ID =',threading.currentThread().getName(), '\n\tHilo en modo DAEMON = ', threading.currentThread().isDaemon(), '\n\tTotal Hilos activos en este punto del programa =', threading.active_count())
 		self.s = socket.socket()
@@ -19,6 +20,12 @@ class Servidor():
 		threading.Thread(target=self.procesarC, daemon=True).start()
 
 		while True:
+
+			## Mostrará los nickname de los usuarios conectados al servidor en ese intante
+			print('\nUsuarios conectados:\n')
+			for c in self.nicknamesConectados:
+				print(self.nicknamesConectados)
+
 			msg = input('\n << SALIR = 1 >> \n')
 
 			if msg == '1':
@@ -51,11 +58,14 @@ class Servidor():
 				for c in self.clientes:
 					try:
 						data = c.recv(32)
-						if data: 
+						if '~' in data:
+							nickname=pickle.loads(data)
+							self.nicknamesConectados.append(nickname.replace('~',''))
+							##Se añade al final de la lista de nicknames el nuevo nickanme recibido del nuevo cliente que se conecta al servidor 
+						else:
 							self.broadcast(data,c)
-							self.guardarHistorialChat(pickle.loads(data))
+							self.guardarHistorialChat(data)
 						 	### Se envia el mensaje a los clientes con la función broadcast y se envian los mensajes al fichero de texto con la funcion guardarHistorialChat para almacenarlos en este
-
 					except: pass
 
 	def broadcast(self, msg, cliente):
